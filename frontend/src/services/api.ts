@@ -2,7 +2,7 @@
 import { createAuthClient } from "better-auth/react"
 const { useSession } = createAuthClient() 
 
-const HOST_BASE = process.env.SERVICE_URL_BACKEND || 'http://localhost:3000';
+const HOST_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
 const AUTH_BASE_URL = `${HOST_BASE}/api/auth`;
 const MODEL_BASE_URL = `${HOST_BASE}/api/model`;
 

@@ -5,9 +5,9 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 
-ENV SERVICE_URL_BACKEND=http://pwwsc0cccowg0g0wo8wg8gck.146.235.223.8.sslip.io
-
 COPY . .
+ARG VITE_API_BASE=http://pwwsc0cccowg0g0wo8wg8gck.146.235.223.8.sslip.io
+ENV VITE_API_BASE=$VITE_API_BASE
 RUN npm run build
 
 FROM nginx:1.27-alpine
