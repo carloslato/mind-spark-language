@@ -10,7 +10,7 @@ services:
     volumes:
       - sqlite_data:/data/sqlite
     command: >
-      sh -c "npx prisma db push && npm run start"
+      sh -c "npx zenstack generate && npx prisma db push && npm run start"
 
   frontend:
     build: ./frontend
