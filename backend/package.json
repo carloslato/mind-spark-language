@@ -1,18 +1,20 @@
 {
-  "name": "backend",
+  "name": "bknd",
+  "module": "index.js",
   "type": "module",
+  "private": true,
   "scripts": {
-    "dev": "tsx watch src/index.ts",
-    "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node index.js",
+    "dev": "tsx --watch index.js"
   },
   "dependencies": {
-    "@hono/node-server": "^1.19.4",
-    "hono": "^4.9.8"
+    "bknd": "0.17.2",
+    "@hono/node-server": "^1.13.3"
   },
   "devDependencies": {
-    "@types/node": "^20.11.17",
-    "tsx": "^4.7.1",
-    "typescript": "^5.8.3"
+    "tsx": "^4.19.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
   }
 }
