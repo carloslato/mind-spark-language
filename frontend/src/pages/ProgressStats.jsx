@@ -14,7 +14,6 @@ const ProgressStats = () => {
 
   return (
     <>
-      <Header />
       <main className="p-8 max-w-4xl mx-auto pt-20">
         <h1 className="text-4xl font-bold text-gray-800 mb-6 border-b pb-2">Estadísticas de Progreso</h1>
         

@@ -50,7 +50,7 @@ const LessonsList = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <main className="p-8 max-w-4xl mx-auto pt-20"> {/* Añadido padding superior para el header fijo */}
         <h1 className="text-4xl font-bold text-gray-800 mb-6">Lecciones Disponibles</h1>
 
@@ -66,10 +66,10 @@ const LessonsList = () => {
               key={lesson.id} 
               className="bg-white p-5 border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition duration-200 cursor-pointer"
             >
-              <h3 className="text-xl font-semibold text-indigo-700">{lesson.title}</h3>
-              <p className="text-sm text-gray-500 mt-1">Sección: {lesson.section}</p>
+              <h3 className="text-xl font-semibold text-indigo-700">{lesson.attributes.title}</h3>
+              {/* <p className="text-sm text-gray-500 mt-1">Sección: {lesson.attributes.section}</p> */}
               <span className="inline-block mt-2 px-3 py-1 text-xs font-semibold text-blue-800 bg-blue-100 rounded-full">
-                Sección: {lesson.section}
+                Sección: {lesson.attributes.section}
               </span>
               {/* Enlace para ver ejercicios o empezar lección */}
               <button

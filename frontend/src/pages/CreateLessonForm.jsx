@@ -57,7 +57,7 @@ const CreateLessonForm = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <main className="p-8 max-w-3xl mx-auto pt-20">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 border-b pb-2">Crear Nueva Lección</h1>
         

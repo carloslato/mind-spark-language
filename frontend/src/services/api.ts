@@ -1,7 +1,14 @@
 // frontend/src/services/api.ts
+import { createAuthClient } from "better-auth/react"
+const { useSession } = createAuthClient() 
 
-const AUTH_BASE_URL = 'http://localhost:3000/api/auth';
-const MODEL_BASE_URL = 'http://localhost:3000/api/model';
+const HOST_BASE = 'http://localhost:3000'
+const AUTH_BASE_URL = `${HOST_BASE}/api/auth`;
+const MODEL_BASE_URL = `${HOST_BASE}/api/model`;
+
+export const authClient = createAuthClient({
+    baseURL: HOST_BASE // The base URL of your auth server
+})
 
 /**
  * Función auxiliar para manejar la respuesta de la API y extraer datos o errores.
@@ -35,9 +42,9 @@ const getAuthHeaders = (token: string | null) => {
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
   };
-  if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
-  }
+  // if (token) {
+  //   headers['Authorization'] = `Bearer ${token}`;
+  // }
   return headers;
 };
 
@@ -48,26 +55,25 @@ export const authService = {
    * Registro de Usuario (POST /sign-up/email)
    * @param data { name: string, email: string, password: string }
    */
-  signUp: async (data: { name: string, email: string, password: string }) => {
-    const response = await fetch(`${AUTH_BASE_URL}/sign-up/email`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    });
-    return handleResponse(response); // Devuelve UserAuthResponse o lanza error
+  signUp: async (signUpData: { name: string, email: string, password: string }) => {
+    const { data, error } = await authClient.signUp.email({
+      name: signUpData.name,
+        email: signUpData.email,
+        password: signUpData.password
+    })
+    return data; // Devuelve UserAuthResponse o lanza error
   },
 
   /**
    * Inicio de Sesión (POST /sign-in/email)
    * @param data { email: string, password: string }
    */
-  signIn: async (data: { email: string, password: string }) => {
-    const response = await fetch(`${AUTH_BASE_URL}/sign-in/email`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    });
-    return handleResponse(response); // Devuelve UserSignInResponse o lanza error
+  signIn: async (sigInData: { email: string, password: string }) => {
+    const { data, error } = await authClient.signIn.email({
+        email: sigInData.email,
+        password: sigInData.password
+    })
+    return data; // Devuelve UserSignInResponse o lanza error
   },
 
   /**
@@ -75,11 +81,8 @@ export const authService = {
    * @param token El token de sesión actual.
    */
   signOut: async (token: string) => {
-    const response = await fetch(`${AUTH_BASE_URL}/sign-out`, {
-      method: 'POST',
-      headers: getAuthHeaders(token),
-    });
-    return handleResponse(response); // Devuelve { success: boolean } o lanza error
+    const { data, error } = await authClient.signOut();
+    return data; // Devuelve { success: boolean } o lanza error
   }
 };
 
@@ -92,9 +95,11 @@ export const contentService = {
   listLessons: async (token: string | null) => {
     const response = await fetch(`${MODEL_BASE_URL}/lesson`, {
       method: 'GET',
-      headers: getAuthHeaders(token),
+      credentials: "include"
+      // headers: getAuthHeaders(token),
     });
-    return handleResponse(response); // Devuelve LessonSummary[] o lanza error
+    const result = await handleResponse(response); // Obtiene la respuesta completa
+    return result.data; // Devuelve solo el array de lecciones
   },
 
   /**
@@ -105,7 +110,13 @@ export const contentService = {
     const response = await fetch(`${MODEL_BASE_URL}/lesson`, {
       method: 'POST',
       headers: getAuthHeaders(token),
-      body: JSON.stringify(data),
+      credentials: "include",
+      body: JSON.stringify({
+        data: {
+          type: "lesson",
+          attributes: data
+        }
+      }),
     });
     return handleResponse(response); // Devuelve LessonSummary o lanza error
   },
@@ -116,9 +127,11 @@ export const contentService = {
   listExercises: async (token: string | null) => {
     const response = await fetch(`${MODEL_BASE_URL}/exercise`, {
       method: 'GET',
+      credentials: "include",
       headers: getAuthHeaders(token),
     });
-    return handleResponse(response); // Devuelve ExerciseSummary[] o lanza error
+    const result = await handleResponse(response); // Obtiene la respuesta completa
+    return result.data; // Devuelve solo el array de ejercicios
   },
 
   /**
@@ -129,7 +142,13 @@ export const contentService = {
     const response = await fetch(`${MODEL_BASE_URL}/exercise`, {
       method: 'POST',
       headers: getAuthHeaders(token),
-      body: JSON.stringify(data),
+      credentials: "include",
+      body: JSON.stringify({
+        data: {
+          type: "exercise",
+          attributes: data
+        }
+      }),
     });
     return handleResponse(response); // Devuelve ExerciseSummary o lanza error
   }
@@ -146,7 +165,13 @@ export const studentActivityService = {
     const response = await fetch(`${MODEL_BASE_URL}/userAnswer`, {
       method: 'POST',
       headers: getAuthHeaders(token),
-      body: JSON.stringify(data),
+      credentials: "include",
+      body: JSON.stringify({
+        data: {
+          type: "userAnswer",
+          attributes: data
+        }
+      }),
     });
     return handleResponse(response); // Devuelve UserAnswerSummary o lanza error
   }

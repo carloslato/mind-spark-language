@@ -1,0 +1,25 @@
+name: app-ingles-aa3
+
+services:
+  backend:
+    build: ./backend
+    ports: 
+      - 3000:3000
+    environment:
+      - DATABASE_URL=file:/data/sqlite/dev.db
+    volumes:
+      - sqlite_data:/data/sqlite
+    command: >
+      sh -c "npx prisma db push && npm run start"
+
+  frontend:
+    build: ./frontend
+    ports: 
+      - 5173:80
+    environment:
+      - VITE_API_URL=https://tuservidor.com # ajusta dominio/API
+    depends_on:
+      - backend
+
+volumes:
+  sqlite_data:

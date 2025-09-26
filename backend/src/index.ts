@@ -19,7 +19,17 @@ const app = new Hono<{
 	}
 }>();
 
-app.use(cors({ origin: "*" }));
+app.use(
+	"/api/*", // or replace with "*" to enable cors for all routes
+	cors({
+		origin: "http://localhost:5173", // replace with your origin
+		allowHeaders: ["Content-Type", "Authorization"],
+		allowMethods: ["POST", "GET", "OPTIONS", "UPDATE", "PUT"],
+		exposeHeaders: ["Content-Length"],
+		maxAge: 600,
+		credentials: true,
+	}),
+);
 app.use("*", async (c, next) => {
 	const session = await auth.api.getSession({ headers: c.req.raw.headers });
   	if (!session) {
@@ -29,6 +39,7 @@ app.use("*", async (c, next) => {
   	}
   	c.set("user", session.user);
   	c.set("session", session.session);
+    // console.log('yes auth server', session);
   	return next();
 });
 

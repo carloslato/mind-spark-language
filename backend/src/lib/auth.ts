@@ -9,9 +9,15 @@ export const auth = betterAuth({
     emailAndPassword: { 
       enabled: true, 
     },
+    trustedOrigins: ["http://localhost:5173", "http://localhost:3000"],
     plugins: [ 
         openAPI(), 
     ],
+    defaultCookieAttributes: {
+      sameSite: "none",
+      // secure: true,
+      partitioned: true // New browser standards will mandate this for foreign cookies
+    },
     database: prismaAdapter(prisma, {
         provider: "sqlite", // or "mysql", "postgresql", ...etc
     }),

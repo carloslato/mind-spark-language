@@ -82,7 +82,7 @@ export const AuthProvider = ({ children }) => {
           return { success: true };
       }
       
-      await authService.signOut(token);
+      await authService.signOut();
       
       // Si la respuesta es 200, limpiamos localmente
       setUser(null);

@@ -7,6 +7,7 @@ import LessonsList from './pages/LessonsList';
 import CreateLessonForm from './pages/CreateLessonForm';
 import ExerciseAnswerPage from './pages/ExerciseAnswerPage';
 import ProgressStats from './pages/ProgressStats'; // Nuevo import
+import Layout from './components/Layout';
 
 // Componente para proteger rutas
 const ProtectedRoute = ({ children }) => {
@@ -106,7 +107,9 @@ function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <AppContent />
+        <Layout>
+          <AppContent />
+        </Layout>
       </AuthProvider>
     </BrowserRouter>
   );
