@@ -22,7 +22,7 @@ const app = new Hono<{
 app.use(
 	"/api/*", // or replace with "*" to enable cors for all routes
 	cors({
-		origin: "http://localhost:5173", // replace with your origin
+		origin: ["http://localhost:5173", "http://localhost:3000", process.env.SERVICE_URL_FRONTEND || 'http://w4cg8kow84ww884884oo8g08.146.235.223.8.sslip.io'], // replace with your origin
 		allowHeaders: ["Content-Type", "Authorization"],
 		allowMethods: ["POST", "GET", "OPTIONS", "UPDATE", "PUT"],
 		exposeHeaders: ["Content-Length"],
@@ -53,7 +53,7 @@ app.use(
           const user = ctx.get('user');
           return enhance(prisma, { user: user });
         },
-        handler: RestApiHandler({ endpoint: 'http://localhost:3000/api/model' })  
+        handler: RestApiHandler({ endpoint: `${ process.env.SERVICE_URL_BACKEND || "http://localhost:3000" }/api/model` })  
     })
 );
 
