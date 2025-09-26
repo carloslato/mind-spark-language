@@ -1,0 +1,488 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Mind Spark API - Resumen de Endpoints Esenciales",
+    "version": "1.0.0",
+    "description": "Resumen de endpoints esenciales para autenticación, Lecciones, Ejercicios y Respuestas de Alumno."
+  },
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Operaciones de Usuario y Sesión (Registro, Login, Logout)"
+    },
+    {
+      "name": "Content Management",
+      "description": "Operaciones de Lecciones y Ejercicios (Creación/Listado)"
+    },
+    {
+      "name": "Student Activity",
+      "description": "Operaciones de Respuesta de Alumno"
+    }
+  ],
+  "paths": {
+    "/sign-up/email": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Registro de Usuario (Email y Contraseña)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSignUpRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Usuario creado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserAuthResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error: Usuario ya existe"
+          }
+        }
+      }
+    },
+    "/sign-in/email": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Inicio de Sesión (Email y Contraseña)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSignInRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sesión iniciada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserSignInResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas"
+          }
+        }
+      }
+    },
+    "/sign-out": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Cerrar Sesión",
+        "responses": {
+          "200": {
+            "description": "Sesión cerrada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lesson": {
+      "get": {
+        "tags": [
+          "Content Management"
+        ],
+        "summary": "Listar Lecciones",
+        "responses": {
+          "200": {
+            "description": "Lista de lecciones",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LessonSummary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Content Management"
+        ],
+        "summary": "Crear Lección",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LessonCreateRequestSummary"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Lección creada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LessonSummary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/exercise": {
+      "get": {
+        "tags": [
+          "Content Management"
+        ],
+        "summary": "Listar Ejercicios",
+        "responses": {
+          "200": {
+            "description": "Lista de ejercicios",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExerciseSummary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Content Management"
+        ],
+        "summary": "Crear Ejercicio",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExerciseCreateRequestSummary"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Ejercicio creado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExerciseSummary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/userAnswer": {
+      "post": {
+        "tags": [
+          "Student Activity"
+        ],
+        "summary": "Responder Ejercicio (Crear UserAnswer)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserAnswerCreateRequestSummary"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Respuesta enviada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserAnswerSummary"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UserSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "name": {
+            "type": "string"
+          },
+          "emailVerified": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "emailVerified"
+        ]
+      },
+      "UserAuthResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserSummary"
+          }
+        },
+        "required": [
+          "user"
+        ]
+      },
+      "UserSignInResponse": {
+        "type": "object",
+        "properties": {
+          "redirect": {
+            "type": "boolean",
+            "enum": [
+              false
+            ]
+          },
+          "token": {
+            "type": "string"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserSummary"
+          }
+        },
+        "required": [
+          "redirect",
+          "token",
+          "user"
+        ]
+      },
+      "UserSignUpRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "email",
+          "password"
+        ]
+      },
+      "UserSignInRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "LessonSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "section": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "section"
+        ]
+      },
+      "LessonCreateRequestSummary": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "difficulty": {
+            "type": "string",
+            "enum": [
+              "EASY",
+              "MEDIUM",
+              "HARD"
+            ]
+          },
+          "section": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "difficulty",
+          "section"
+        ]
+      },
+      "ExerciseSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "TRANSLATION",
+              "FILL_IN_BLANKS",
+              "LISTENING"
+            ]
+          },
+          "question": {
+            "type": "string"
+          },
+          "lessonId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "question",
+          "lessonId"
+        ]
+      },
+      "ExerciseCreateRequestSummary": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "TRANSLATION",
+              "FILL_IN_BLANKS",
+              "LISTENING"
+            ]
+          },
+          "question": {
+            "type": "string"
+          },
+          "answer": {
+            "type": "string"
+          },
+          "lessonId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "question",
+          "answer",
+          "lessonId"
+        ]
+      },
+      "UserAnswerSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "exerciseId": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "content",
+          "exerciseId",
+          "userId"
+        ]
+      },
+      "UserAnswerCreateRequestSummary": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "exerciseId": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "content",
+          "exerciseId",
+          "userId"
+        ]
+      }
+    }
+  }
+}

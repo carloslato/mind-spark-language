@@ -1,0 +1,195 @@
+// This is a sample model to get you started.
+
+/// A sample data source using local sqlite db.
+datasource db {
+    provider = 'sqlite'
+    url = 'file:./dev.db'
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+plugin openapi {
+    provider = "@zenstackhq/openapi"
+    output = "mind-spark-api.json"
+    title = "Mind Spark English"
+    version = "1.0.0"
+    flavor = "rest"
+}
+
+type Auth {
+  id           String  @id
+  @@auth
+}
+
+/// Post model
+model Post {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    title     String   @length(1, 256)
+    content   String
+    published Boolean  @default(false)
+    // author    User     @relation(fields: [authorId], references: [id])
+    // authorId  String
+
+    // allow read for all signin users
+    @@allow('read', auth() != null && published)
+
+    @@allow('all', true)
+
+    // full access by author
+    // @@allow('all', author.id == auth().id)
+}
+
+
+
+/// User model
+
+model User {
+  id            String    @id
+  name          String
+  email         String
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @default(now()) @updatedAt
+  sessions      Session[]
+  accounts      Account[]
+
+  // posts         Post[]
+  // progresses Progress[]
+  // answers    UserAnswer[]
+
+  @@unique([email])
+  @@map("user")
+
+  // everybody can signup
+  @@allow('create', true)
+
+  // full access by self
+  @@allow('all', auth().id == this.id)
+}
+
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@map("session")
+
+  @@allow('create', true)
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@map("account")
+
+  @@allow('create', true)
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+
+  @@map("verification")
+  @@allow('create', true)
+}
+
+
+// Lecciones estructuradas
+model Lesson {
+  id          String      @id @default(cuid())
+  title       String
+  description String?
+  difficulty  Difficulty
+  section     String       // sección o nivel (ej. A1, A2, B1…)
+
+  exercises   Exercise[]
+
+  @@allow('read', true)
+  @@allow('create', true)
+  
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+// Ejercicios dentro de una lección
+model Exercise {
+  id          String     @id @default(cuid())
+  type        ExerciseType
+  question    String
+  answer      String       // respuesta esperada (simplificado)
+  lessonId    String
+  lesson      Lesson       @relation(fields: [lessonId], references: [id])
+
+  userAnswers UserAnswer[]
+
+  @@allow('read', true)
+  
+}
+
+enum ExerciseType {
+  TRANSLATION
+  FILL_IN_BLANKS
+  LISTENING
+}
+
+// Respuestas de usuarios a ejercicios
+model UserAnswer {
+  id         String   @id @default(cuid())
+  content    String
+  correct    Boolean
+  exerciseId String
+  exercise   Exercise @relation(fields: [exerciseId], references: [id])
+  // userId     String
+  // user       User     @relation(fields: [userId], references: [id])
+
+  @@allow('create', auth().id == id)
+  
+}
+
+// Progreso del usuario (estadísticas)
+model Progress {
+  id        String @id @default(cuid())
+  // userId    String
+  // user      User   @relation(fields: [userId], references: [id])
+  lessonsCompleted Int    @default(0)
+  exercisesCompleted Int  @default(0)
+  score     Int     @default(0)
+
+  // @@allow('read,create,update', auth().id == userId)
+  @@allow('read,create,update', true)
+
+}

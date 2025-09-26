@@ -1,0 +1,69 @@
+import { serve } from '@hono/node-server'
+import { PrismaClient } from '@prisma/client';
+import { enhance } from '@zenstackhq/runtime';
+import { createHonoHandler } from '@zenstackhq/server/hono';
+import { type Context, Hono } from 'hono';
+import { auth } from './lib/auth.ts'
+import { cors } from "hono/cors";
+import { RestApiHandler } from '@zenstackhq/server/api';
+import { swaggerUI } from '@hono/swagger-ui'
+import openApiDoc from '../mind-spark-api.json' with { type: 'json' }
+
+
+
+const prisma = new PrismaClient();
+const app = new Hono<{
+	Variables: {
+		user: typeof auth.$Infer.Session.user | null;
+		session: typeof auth.$Infer.Session.session | null
+	}
+}>();
+
+app.use(cors({ origin: "*" }));
+app.use("*", async (c, next) => {
+	const session = await auth.api.getSession({ headers: c.req.raw.headers });
+  	if (!session) {
+    	c.set("user", null);
+    	c.set("session", null);
+    	return next();
+  	}
+  	c.set("user", session.user);
+  	c.set("session", session.session);
+  	return next();
+});
+
+app.on(["POST", "GET"], "/api/auth/*", (c) => auth.handler(c.req.raw));
+
+
+app.use(
+    '/api/model/*',
+    createHonoHandler({
+        getPrisma: (ctx) => {
+          const user = ctx.get('user');
+          return enhance(prisma, { user: user });
+        },
+        handler: RestApiHandler({ endpoint: 'http://localhost:3000/api/model' })  
+    })
+);
+
+app.get('/hello', (c) => {
+  return c.text('Hello Hono!')
+})
+
+app.get('/openapi.json', (c) => c.json({...openApiDoc,  servers: [
+      {
+        url: '/api/model', // 👈 el endpoint base de ZenStack
+        description: 'ZenStack default endpoint'
+      }
+    ]}))
+
+app.get('/api/docs', swaggerUI({
+    url: '/openapi.json', // Swagger UI buscará aquí el spec
+  }))
+
+serve({
+  fetch: app.fetch,
+  port: 3000
+}, (info) => {
+  console.log(`Server is running on http://localhost:${info.port}`)
+})

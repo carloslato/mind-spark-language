@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "nombre": "Primer Paso",
+    "descripcion": "Completa tu primera lección",
+    "icono": "first-step",
+    "criterios": "completar_leccion_1",
+    "estado": "pendiente"
+  },
+  {
+    "id": 2,
+    "nombre": "Maratón de Aprendizaje",
+    "descripcion": "Completa 5 lecciones consecutivas",
+    "icono": "marathon",
+    "criterios": "completar_5_lecciones",
+    "estado": "pendiente"
+  },
+  {
+    "id": 3,
+    "nombre": "Perfecto",
+    "descripcion": "Obtén una puntuación perfecta en un ejercicio",
+    "icono": "perfect-score",
+    "criterios": "puntuacion_perfecta",
+    "estado": "pendiente"
+  },
+  {
+    "id": 4,
+    "nombre": "Racha de 7 Días",
+    "descripcion": "Estudia durante 7 días consecutivos",
+    "icono": "7-day-streak",
+    "criterios": "racha_7_dias",
+    "estado": "pendiente"
+  },
+  {
+    "id": 5,
+    "nombre": "Explorador",
+    "descripcion": "Completa lecciones de todos los niveles",
+    "icono": "explorer",
+    "criterios": "completar_todos_niveles",
+    "estado": "pendiente"
+  }
+]

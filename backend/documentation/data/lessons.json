@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "titulo": "Saludos Básicos",
+    "descripcion": "Aprende los saludos más comunes en inglés",
+    "nivel": "principiante",
+    "duracion": 10,
+    "orden_secuencia": 1,
+    "estado": "desbloqueada",
+    "puntuacion": 0,
+    "id_idioma": 1,
+    "contenido": "Hola - Hello\n¿Cómo estás? - How are you?\nBien - Fine\nGracias - Thank you\nPor favor - Please"
+  },
+  {
+    "id": 2,
+    "titulo": "Números del 1 al 10",
+    "descripcion": "Aprende a contar del 1 al 10 en inglés",
+    "nivel": "principiante",
+    "duracion": 15,
+    "orden_secuencia": 2,
+    "estado": "bloqueada",
+    "puntuacion": 0,
+    "id_idioma": 1,
+    "contenido": "Uno - One\nDos - Two\nTres - Three\nCuatro - Four\nCinco - Five\nSeis - Six\nSiete - Seven\nOcho - Eight\nNueve - Nine\nDiez - Ten"
+  },
+  {
+    "id": 3,
+    "titulo": "Colores",
+    "descripcion": "Aprende los colores básicos en inglés",
+    "nivel": "principiante",
+    "duracion": 12,
+    "orden_secuencia": 3,
+    "estado": "bloqueada",
+    "puntuacion": 0,
+    "id_idioma": 1,
+    "contenido": "Rojo - Red\nAzul - Blue\nVerde - Green\nAmarillo - Yellow\nNegro - Black\nBlanco - White\nNaranja - Orange\nMorado - Purple"
+  },
+  {
+    "id": 4,
+    "titulo": "Familia",
+    "descripcion": "Aprende el vocabulario de la familia en inglés",
+    "nivel": "principiante",
+    "duracion": 18,
+    "orden_secuencia": 4,
+    "estado": "bloqueada",
+    "puntuacion": 0,
+    "id_idioma": 1,
+    "contenido": "Madre - Mother\nPadre - Father\nHermano - Brother\nHermana - Sister\nHijo - Son\nHija - Daughter\nAbuelo - Grandfather\nAbuela - Grandmother"
+  },
+  {
+    "id": 5,
+    "titulo": "Verbos Comunes",
+    "descripcion": "Aprende verbos básicos en inglés",
+    "nivel": "principiante",
+    "duracion": 20,
+    "orden_secuencia": 5,
+    "estado": "bloqueada",
+    "puntuacion": 0,
+    "id_idioma": 1,
+    "contenido": "Ser - To be\nTener - To have\nHacer - To do\nIr - To go\nVenir - To come\nComer - To eat\nBeber - To drink\nDormir - To sleep"
+  }
+]

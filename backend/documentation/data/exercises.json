@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "tipo": "traducción",
+    "enunciado": "Traduce: 'Hello, how are you?'",
+    "respuesta_correcta": "Hola, ¿cómo estás?",
+    "opciones": ["Hola, ¿cómo estás?", "Adiós, ¿cómo estás?", "Hola, ¿qué haces?"],
+    "dificultad": "fácil",
+    "puntuacion_maxima": 10,
+    "id_leccion": 1
+  },
+  {
+    "id": 2,
+    "tipo": "opción múltiple",
+    "enunciado": "¿Cómo se dice 'Thank you' en español?",
+    "respuesta_correcta": "Gracias",
+    "opciones": ["Por favor", "Gracias", "Hola", "Adiós"],
+    "dificultad": "fácil",
+    "puntuacion_maxima": 10,
+    "id_leccion": 1
+  },
+  {
+    "id": 3,
+    "tipo": "completar oración",
+    "enunciado": "Complete: 'Hello, ___ are you?'",
+    "respuesta_correcta": "how",
+    "opciones": null,
+    "dificultad": "fácil",
+    "puntuacion_maxima": 10,
+    "id_leccion": 1
+  },
+  {
+    "id": 4,
+    "tipo": "traducción",
+    "enunciado": "Traduce: 'One, two, three'",
+    "respuesta_correcta": "Uno, dos, tres",
+    "opciones": ["Uno, dos, tres", "Cuatro, cinco, seis", "Siete, ocho, nueve"],
+    "dificultad": "fácil",
+    "puntuacion_maxima": 10,
+    "id_leccion": 2
+  },
+  {
+    "id": 5,
+    "tipo": "opción múltiple",
+    "enunciado": "¿Cómo se dice 'Red' en español?",
+    "respuesta_correcta": "Rojo",
+    "opciones": ["Azul", "Rojo", "Verde", "Amarillo"],
+    "dificultad": "fácil",
+    "puntuacion_maxima": 10,
+    "id_leccion": 3
+  },
+  {
+    "id": 6,
+    "tipo": "traducción",
+    "enunciado": "Traduce: 'My mother is kind'",
+    "respuesta_correcta": "Mi madre es amable",
+    "opciones": ["Mi padre es amable", "Mi madre es amable", "Mi hermano es amable"],
+    "dificultad": "media",
+    "puntuacion_maxima": 15,
+    "id_leccion": 4
+  },
+  {
+    "id": 7,
+    "tipo": "completar oración",
+    "enunciado": "Complete: 'I ___ a student'",
+    "respuesta_correcta": "am",
+    "opciones": null,
+    "dificultad": "fácil",
+    "puntuacion_maxima": 10,
+    "id_leccion": 5
+  },
+  {
+    "id": 8,
+    "tipo": "opción múltiple",
+    "enunciado": "¿Cuál es la forma correcta del verbo 'to have' en presente para 'I'?",
+    "respuesta_correcta": "have",
+    "opciones": ["has", "have", "having", "had"],
+    "dificultad": "media",
+    "puntuacion_maxima": 15,
+    "id_leccion": 5
+  }
+]
