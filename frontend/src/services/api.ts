@@ -61,7 +61,7 @@ export const authService = {
         email: signUpData.email,
         password: signUpData.password
     })
-    return data; // Devuelve UserAuthResponse o lanza error
+    return {data, error}; // Devuelve UserAuthResponse o lanza error
   },
 
   /**

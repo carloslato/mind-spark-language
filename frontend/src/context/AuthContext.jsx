@@ -59,11 +59,19 @@ export const AuthProvider = ({ children }) => {
   const register = async (name, email, password) => {
     setLoading(true);
     try {
-      const data = await authService.signUp({ name, email, password });
+      const { data, error} = await authService.signUp({ name, email, password });
       // Si el registro es exitoso, a menudo se devuelve el token y el usuario (como en UserAuthResponse)
-      setToken(data.token);
-      setUser(data.user);
-      return { success: true };
+      
+      if (!error) {
+        setToken(data.token);
+        setUser(data.user);
+        return { success: true };
+      } else {
+        if (error.status === 422) {
+          return { success: false, message: 'El correo ya esta registrado en el sitio web' }
+        }
+        return { success: false, message: error.message || 'Error desconocido durante el registro' };
+      }
     } catch (error) {
       console.error('Registration error:', error);
       return { success: false, message: error.message || 'Error de red o servidor' };
@@ -112,7 +120,12 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={contextValue}>
-      {!loading && children}
+      {children}
+      {loading && (
+        <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-70">
+          <p className="text-lg font-semibold text-indigo-600">Cargando...</p>
+        </div>
+      )}
     </AuthContext.Provider>
   );
 };

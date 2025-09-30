@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 
 const RegisterPage = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [errorStatus, setErrorStatus] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
   
   const { register, isAuthenticated } = useAuth();
@@ -22,13 +22,14 @@ const RegisterPage = () => {
     );
   }
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-    setSuccessMessage('');
+    // setErrorStatus('');
+    // setSuccessMessage('');
 
     if (!name || !email || !password) {
-      setError('Todos los campos son obligatorios.');
+      setErrorStatus('Todos los campos son obligatorios.');
       return;
     }
 
@@ -41,12 +42,20 @@ const RegisterPage = () => {
       setEmail('');
       setPassword('');
     } else {
-      setError(result.message || 'Error desconocido durante el registro.');
+      setName('');
+      setEmail('');
+      setPassword('');
+      setErrorStatus(result.message || 'Error desconocido durante el registro.');
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+
+      {/* <div>
+        <p>DEBUG errorStatus: {String(errorStatus)}</p>
+        <p>DEBUG successMessage: {String(successMessage)}</p>
+      </div> */}
       <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md">
         <h2 className="text-3xl font-extrabold text-gray-900 mb-6 text-center">
           Registrarse
@@ -58,9 +67,9 @@ const RegisterPage = () => {
           </div>
         )}
 
-        {error && (
+        {errorStatus && (
           <div className="mb-4 p-3 text-sm font-medium text-red-800 bg-red-100 rounded-lg" role="alert">
-            {error}
+            {errorStatus}
           </div>
         )}
 
@@ -120,7 +129,7 @@ const RegisterPage = () => {
             <button
               type="submit"
               className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
-              disabled={!name || !email || !password || isAuthenticated}
+              disabled={!name || !email || !password}
             >
               Registrarse
             </button>

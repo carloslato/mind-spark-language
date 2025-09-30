@@ -76,5 +76,5 @@ serve({
   fetch: app.fetch,
   port: 3000
 }, (info) => {
-  console.log(`Server is running on http://localhost:${info.port}`)
+  console.log(`Server is running on ${process.env.SERVICE_URL_BACKEND}:${info.port}`)
 })
